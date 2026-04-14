@@ -1,6 +1,22 @@
 Voka.scrollWidth = null;
 Voka.element = [];
 function Voka(options = {}) {
+    if (!options.content && !options.templateId) {
+        console.error(`You must provide one of "content" or "templateId"`);
+        return;
+    }
+
+    if (options.content && options.templateId) {
+        options.templateId = null;
+        console.warn(
+            "When populating the content, templateId is always ignored.",
+        );
+    }
+    this._template = document.querySelector(options.templateId);
+    if (!this._template && !options.content) {
+        return console.error(`Template "${options.templateId}" not found`);
+    }
+
     this.opt = Object.assign(
         {
             destroyOnClose: true,
@@ -10,11 +26,8 @@ function Voka(options = {}) {
         },
         options,
     );
-    this._template = document.querySelector(this.opt.templateId);
 
-    if (!this._template) {
-        return console.error(`Template "${this.opt.templateId}" not found`);
-    }
+    this.content = this.opt.content;
     const { closeMethod } = this.opt;
     this._allowButtonMethod = closeMethod.includes("button");
     this._allowEscMethod = closeMethod.includes("esc");
@@ -39,7 +52,14 @@ Voka.prototype.getScrollWidth = function () {
 };
 
 Voka.prototype.build = function () {
-    const contentElement = this._template.content.cloneNode(true);
+    this._contentElement;
+    if (this.opt.content) {
+        const tmpl = document.createElement("template");
+        tmpl.innerHTML = this.opt.content;
+        this._contentElement = tmpl.content.cloneNode(true);
+    } else {
+        this._contentElement = this._template.content.cloneNode(true);
+    }
     this._backdrop = document.createElement("div");
     this._backdrop.className = "voka__backdrop";
     const container = document.createElement("div");
@@ -61,11 +81,11 @@ Voka.prototype.build = function () {
         });
     }
 
-    const content = document.createElement("div");
-    content.className = "modal-content";
+    this._modalContent = document.createElement("div");
+    this._modalContent.className = "modal-content";
 
-    content.appendChild(contentElement);
-    container.appendChild(content);
+    this._modalContent.appendChild(this._contentElement);
+    container.appendChild(this._modalContent);
     if (this.opt.footer) {
         this._footerElement = document.createElement("div");
         this._footerElement.className = "voka__footer";
@@ -89,6 +109,13 @@ Voka.prototype.build = function () {
     }
 
     document.body.appendChild(this._backdrop);
+};
+
+Voka.prototype.setContent = function (content) {
+    this.opt.content = content;
+    if (this._modalContent) {
+        this._modalContent.innerHTML = content;
+    }
 };
 
 Voka.prototype.setFooterContent = function (html) {
@@ -132,7 +159,7 @@ Voka.prototype.open = function () {
     this._toggleBodyScroll(true);
     Voka.element.push(this);
     setTimeout(() => {
-        this._backdrop.classList.add("voka--show");
+        this._backdrop?.classList.add("voka--show");
     });
 
     if (this._allowEscMethod) {
@@ -152,7 +179,7 @@ Voka.prototype._handlerEsc = function (e) {
 };
 
 Voka.prototype._onTransitionEnd = function (callback) {
-    this._backdrop.addEventListener("transitionend", callback, {
+    this._backdrop?.addEventListener("transitionend", callback, {
         once: true,
     });
 };
