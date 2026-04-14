@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "minify": "terser voka.js -o voka.min.js && csso voka.css -o voka.min.css"
+    },
+    "dependencies": {
+        "csso-cli": "^4.0.2",
+        "terser": "^5.46.1"
+    }
+}
