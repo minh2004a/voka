@@ -19,6 +19,8 @@ function Voka(options = {}) {
 
     this.opt = Object.assign(
         {
+            scrollLockTarget: () => document.body,
+            enableScrollLock: true,
             destroyOnClose: true,
             cssClass: [],
             footer: false,
@@ -128,7 +130,11 @@ Voka.prototype.setFooterContent = function (html) {
 Voka.prototype.addFooterButton = function (title, cssClass, callback) {
     const button = document.createElement("button");
     button.innerHTML = title;
-    button.classList.add(cssClass);
+    if (cssClass) {
+        cssClass.split(" ").forEach((cls) => {
+            if (cls) button.classList.add(cls);
+        });
+    }
     button.addEventListener("click", callback);
     this._footerButtons.push(button);
     if (this._footerElement) {
@@ -141,13 +147,19 @@ Voka.prototype._toggleBodyScroll = function (isDisable) {
         const scrollWidth = this.getScrollWidth();
         const hasScroll =
             window.innerWidth > document.documentElement.clientWidth;
-        if (hasScroll) {
-            document.body.style.paddingRight = `${scrollWidth}px`;
-            document.body.classList.add("voka--no-scroll");
+        if (hasScroll && this.opt.enableScrollLock) {
+            const target = this.opt.scrollLockTarget();
+            const targetPadding = parseFloat(
+                getComputedStyle(target).paddingRight,
+            );
+
+            target.style.paddingRight = `${scrollWidth + targetPadding}px`;
+            target.classList.add("voka--no-scroll");
         }
-    } else if (Voka.element.length === 0) {
-        document.body.style.paddingRight = "";
-        document.body.classList.remove("voka--no-scroll");
+    } else if (Voka.element.length === 0 && this.opt.enableScrollLock) {
+        const target = this.opt.scrollLockTarget();
+        target.style.paddingRight = "";
+        target.classList.remove("voka--no-scroll");
     }
 };
 
