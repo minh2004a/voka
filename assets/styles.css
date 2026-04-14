@@ -271,6 +271,12 @@ blockquote {
     font-size: 1.8rem;
 }
 
+.header__tagline--author {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
 .content {
     padding-bottom: 30px;
 }

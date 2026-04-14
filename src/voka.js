@@ -19,7 +19,7 @@ function Voka(options = {}) {
 
     this.opt = Object.assign(
         {
-            scrollLockTarget: () => document.body,
+            scrollLockTarget: () => document.documentElement,
             enableScrollLock: true,
             destroyOnClose: true,
             cssClass: [],
@@ -63,7 +63,7 @@ Voka.prototype.build = function () {
         this._contentElement = this._template.content.cloneNode(true);
     }
     this._backdrop = document.createElement("div");
-    this._backdrop.className = "voka__backdrop";
+    this._backdrop.className = "voka";
     const container = document.createElement("div");
     container.className = "voka__container";
 

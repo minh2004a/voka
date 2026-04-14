@@ -2,7 +2,7 @@
     overflow-y: hidden;
 }
 
-.voka__backdrop {
+.voka {
     position: fixed;
     inset: 0;
     background: rgba(10, 10, 10, 0.6);
@@ -16,7 +16,7 @@
         visibility 0.3s ease;
 }
 
-.voka__backdrop.voka--show {
+.voka.voka--show {
     opacity: 1;
     visibility: visible;
 }
@@ -33,7 +33,7 @@
     transition: transform 0.3s ease;
 }
 
-.voka__backdrop.voka--show .voka__container {
+.voka.voka--show .voka__container {
     transform: scale(1);
 }
 

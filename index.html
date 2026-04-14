@@ -26,6 +26,9 @@
                     A lightweight and simple modal library built with pure
                     JavaScript.
                 </div>
+                <div class="header__tagline header__tagline--author">
+                    Author: Thanh Minh F8
+                </div>
                 <a
                     href="https://github.com/minh2004a/voka"
                     class="header__github"
@@ -116,13 +119,13 @@
 
             <pre
                 class="html"
-            ><code>&lt;script src=&quot;https://cdn.jsdelivr.net/gh/minh2004a/voka@v1.0.0/voka.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+            ><code>&lt;script src=&quot;https://cdn.jsdelivr.net/gh/minh2004a/voka@v1.0.1/voka.min.js&quot;&gt;&lt;/script&gt;</code></pre>
 
             <p>Optionally, include the Voka CSS file for default styling:</p>
 
             <pre class="html"><code>&lt;link
     rel=&quot;stylesheet&quot;
-    href=&quot;https://cdn.jsdelivr.net/gh/minh2004a/voka@v1.0.0/voka.min.css&quot;
+    href=&quot;https://cdn.jsdelivr.net/gh/minh2004a/voka@v1.0.1/voka.min.css&quot;
 &gt;</code></pre>
 
             <p>
@@ -162,11 +165,11 @@ const modal = new Voka({
 modal.setContent('&lt;h1&gt;This is new content&lt;/h1&gt;');
 
 // Add footer buttons
-modal.addFooterBtn('Cancel', 'btn btn--default', function(e) {
+modal.addFooterButton('Cancel', 'btn btn--default', function(e) {
     modal.close();
 });
 
-modal.addFooterBtn('Confirm', 'btn btn--primary', function(e) {
+modal.addFooterButton('Confirm', 'btn btn--primary', function(e) {
     modal.close();
 });
 
@@ -405,7 +408,7 @@ modal.close();</code></pre>
                     <td>Updates the footer content.</td>
                 </tr>
                 <tr>
-                    <td>addFooterBtn(label, cssClass, callback)</td>
+                    <td>addFooterButton(label, cssClass, callback)</td>
                     <td>
                         Adds a button to the footer with a callback function.
                     </td>
@@ -469,7 +472,7 @@ modal.close();</code></pre>
                 footer: true,
             });
 
-            // Đổi addFooterButton thành addFooterBtn theo đúng API bạn viết ở trên
+            // Đổi addFooterButton thành addFooterButton theo đúng API bạn viết ở trên
             modal2.addFooterButton("Cancel", "modal-btn", () => {
                 modal2.close();
             });
